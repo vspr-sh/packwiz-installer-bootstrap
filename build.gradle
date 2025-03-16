@@ -24,7 +24,12 @@ application {
     tasks.run.workingDir = testProjectDirectory
 }
 
-jar {
+tasks.named('jar') {
+    enabled = false
+}
+
+tasks.shadowJar {
+    archiveClassifier.set('')
     manifest {
         attributes('Main-Class': 'link.infra.packwiz.installer.bootstrap.Main')
     }

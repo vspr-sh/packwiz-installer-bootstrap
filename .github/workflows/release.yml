@@ -1,0 +1,26 @@
+name: Build Release
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-java@v4
+        with:
+          cache: gradle
+          java-version: '8'
+          distribution: 'temurin'
+
+      - uses: ./gradlew build
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          make_latest: 'true'
+          files: 'build/libs/packwiz-installer-bootstrap.jar'

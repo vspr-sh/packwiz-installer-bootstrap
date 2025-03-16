@@ -1,0 +1,26 @@
+name: Build Snapshot
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-java@v4
+        with:
+          cache: gradle
+          java-version: '8'
+          distribution: 'temurin'
+
+      - uses: ./gradlew build
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: snapshot-jar
+          path: build/libs/packwiz-installer-bootstrap.jar
